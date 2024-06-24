@@ -88,9 +88,9 @@ def generate_movement_commands(target_centers, live_centers):
 
         if abs(dy) > 20:  # Threshold for movement
             if dy > 0:
-                commands.append("down")
-            else:
                 commands.append("up")
+            else:
+                commands.append("down")
 
     if not commands:
         commands.append("aligned")
