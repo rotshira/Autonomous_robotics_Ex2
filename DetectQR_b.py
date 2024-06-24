@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+
 def identify_markers_from_camera():
     """
     Identifies markers in the real-time video feed from the camera.
@@ -24,12 +25,13 @@ def identify_markers_from_camera():
                 display_command(frame, yaw, pitch)
                 cv2.polylines(frame, [np.int32(corners)], True, (0, 255, 0), 2)
 
-        cv2.imshow('Camera Feed', frame)
+        cv2.imshow('Camera Screen', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     capture.release()
     cv2.destroyAllWindows()
+
 
 def compute_orientation(corners, frame):
     """
@@ -54,6 +56,7 @@ def compute_orientation(corners, frame):
 
     return yaw, pitch, roll
 
+
 def display_command(frame, yaw, pitch):
     """
     Determines and displays the movement command based on yaw and pitch.
@@ -77,6 +80,7 @@ def display_command(frame, yaw, pitch):
     cv2.putText(frame, f"Command: {command}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
     print(command)
 
+
 def main():
     """
     Main function to detect markers in a live camera feed and display movement commands.
@@ -87,6 +91,7 @@ def main():
         print(error)
     except Exception as error:
         print("An unexpected error occurred:", error)
+
 
 if __name__ == '__main__':
     main()
