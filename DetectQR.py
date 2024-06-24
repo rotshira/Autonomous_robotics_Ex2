@@ -1,3 +1,6 @@
+import argparse
+import os
+
 import numpy as np
 import cv2
 import csv
@@ -121,9 +124,14 @@ def main():
     """
     Main function to detect markers in a video, export results to CSV, and annotate the video.
     """
-    video_file_path = 'video/challengeB.mp4'
-    csv_file_path = 'results.csv'
-    annotated_video_path = 'output.mp4'
+    parser = argparse.ArgumentParser(description='Detect markers in a video file.')
+    parser.add_argument('video_file_path', type=str, help='Path to the input video file')
+
+    args = parser.parse_args()
+    video_file_path = args.video_file_path
+    base_name = os.path.splitext(os.path.basename(video_file_path))[0]
+    csv_file_path = f'{base_name}_detection_frames.csv'
+    annotated_video_path = f'{base_name}_with_markers.mp4'
 
     try:
         detected_markers_list = identify_markers(video_file_path)
@@ -134,7 +142,7 @@ def main():
             print("Detection results saved to", csv_file_path)
             print("Annotated video saved to", annotated_video_path)
         else:
-            print("No markers detected in the video")
+            print("No markers detected in the given video")
 
     except FileNotFoundError as error:
         print(error)
