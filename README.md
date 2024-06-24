@@ -1,7 +1,7 @@
 # TelloAI V.0.1 - Indoor Autonomous Drone Competition
 ## Autonomous Robotics Ex2 - Part A
 
-This project is part A of a course "Autonomous Robotics".
+This project is part A (out of two) of a course "Autonomous Robotics".
 On this part we focus on the main image and video processing challenge: detecting QR codes within a video. The task involves processing each frame of the video to identify any QR codes and recording specific parameters for each detected QR code.
 Using the [ArUco markers](https://github.com/tentone/aruco) library we could achieve that goal providing us an easier "built-in" solution for such problem.
 
