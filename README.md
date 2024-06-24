@@ -1,10 +1,12 @@
 # TelloAI V.0.1 - Indoor Autonomous Drone Competition
-## Autonomous Robotics Ex2 - Part A
+## Autonomous Robotics Ex2 
 
-This project is part A (out of two) of a course "Autonomous Robotics".
-On this part we focus on the main image and video processing challenge: detecting QR codes within a video. The task involves processing each frame of the video to identify any QR codes and recording specific parameters for each detected QR code.
+This project is part of a course "Autonomous Robotics".
+
+**On part A**: we focus on the main image and video processing challenge: detecting QR codes within a video. The task involves processing each frame of the video to identify any QR codes and recording specific parameters for each detected QR code.
 Using the [ArUco markers](https://github.com/tentone/aruco) library we could achieve that goal providing us an easier "built-in" solution for such problem.
 
+**On Part B**: On this part we detect markers in a real-time video feed from our laptop's camera using [OpenCV](https://opencv.org/) and the [ArUco](https://github.com/tentone/aruco) library. The script identifies the markers, calculates their orientation, and displays movement commands based on the detected markers' yaw and pitch angles.
 ## Requirements
 
 - `numpy`
@@ -25,6 +27,7 @@ Using the [ArUco markers](https://github.com/tentone/aruco) library we could ach
     ```sh
     pip install -r requirements.txt
     ```
+# DetectQR (Part A)  
 
 ## Usage
 
@@ -38,6 +41,7 @@ Using the [ArUco markers](https://github.com/tentone/aruco) library we could ach
     ```
 
     Replace `<path/to/video>` with the path to your map image file (e.g., `src/video.mp4`).
+
 
 ## Output
 * A CSV file containing the detection results will be generated. The file will be named based on the input video file name, with _detection_frames.csv appended. 
@@ -100,3 +104,49 @@ These files provide clear instructions on installing dependencies and running th
 | 187.0 | 8         | "(372.0,28.0),(430.0,27.0),(432.0,87.0),(374.0,88.0)" | 0.01723881690412039 | -4.645078425891606 | 22.789169885991623 | -0.98776037 |
 | 188.0 | 8         | "(372.0,35.0),(430.0,34.0),(432.0,93.0),(374.0,95.0)" | 0.01723881690412039 | -4.645078425891606 | 22.331088171045955 | -0.98776037 |
 | 189.0 | 8         | "(372.0,40.0),(429.0,38.0),(432.0,98.0),(374.0,99.0)" | 0.01753307030785004 | -4.659901035460684 | 22.02401599737297 | -0.98776037 |
+
+
+# DetectQR_b (Part B)
+
+## Features
+* Real-time marker detection: Detects ArUco markers in a live camera feed.
+* Orientation calculation: Computes the yaw, pitch, and roll angles of detected markers.
+* Movement commands: Displays commands like "move left", "move right", "move up", "move down", or "hold position" based on the orientation of the markers.
+
+## Usage
+1. Clone the repository:
+    see part A first step (git clone).
+2. Install the dependencies (see part A again).
+3. run py DetectQR_b.py
+4. Interacting with the application:
+
+   * The script will open a window displaying the live camera feed.
+   * Detected markers will be highlighted with a green rectangle.
+   * Movement commands based on the markers' orientation will be displayed on the video feed.
+   * Press 'q' to quit the application.
+
+## Code Overview
+`identify_markers_from_camera()`- Captures video from the camera, detects markers, calculates their orientation, and displays movement commands.
+
+`compute_orientation(corners, frame)` -
+Calculates the yaw, pitch, and roll angles of a detected marker based on its corner coordinates and the current video frame.
+
+`display_command(frame, yaw, pitch)` -
+Displays movement commands on the video frame based on the yaw and pitch angles.
+
+`main()` - 
+Main function to start the marker detection process.
+
+
+## Output
+When a marker is detected, it will be highlighted in the video feed, and a command such as "move left" or "move right" will be displayed based on its orientation.
+
+## Part B Example
+### **Moving QR around the camera:**
+<img width="1292" alt="image" src="https://imgur.com/yfdxeYL.png">
+
+
+
+# Acknowledgements
+* [OpenCV](https://opencv.org/)
+* [ArUco Library](https://github.com/tentone/aruco)
