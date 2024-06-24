@@ -52,7 +52,7 @@ def detect_qr_centers(frame):
 
 
 # Capture the target frame from a file or a static image
-target_frame_path = 'target_frame2.jpg'
+target_frame_path = 'target_frame.jpg'
 target_frame = cv2.imread(target_frame_path)
 if target_frame is None:
     print("Error: Could not read target frame.")
