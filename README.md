@@ -64,7 +64,7 @@ Computes the orientation (yaw, pitch, roll) of the marker.
 **save_markers_to_csv(file_path, markers_detected)**
   Exports detected marker information to a CSV file.
 
-*Args:
+* Args:
    * `file_path` (str): Path to the CSV file.
    * `markers_detected` (list): List of detected markers in all frames.
 
