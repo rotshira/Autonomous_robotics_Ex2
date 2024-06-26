@@ -34,7 +34,7 @@ def identify_markers(video_path):
                 distance = 1 / np.linalg.norm(corners[0][0] - corners[0][1])
                 yaw, pitch, roll = compute_orientation(corners[0], frame)
                 markers_detected.append(
-                    (capture.get(cv2.CAP_PROP_POS_FRAMES), marker_id, corners[0], distance, yaw, pitch, roll))
+                    (int(capture.get(cv2.CAP_PROP_POS_FRAMES)), int(marker_id), corners[0], distance, yaw, pitch, roll))
 
     capture.release()
     return markers_detected
@@ -130,7 +130,7 @@ def main():
     args = parser.parse_args()
     video_file_path = args.video_file_path
     base_name = os.path.splitext(os.path.basename(video_file_path))[0]
-    csv_file_path = f'{base_name}_detection_frames.csv'
+    csv_file_path = 'target_frames.csv'
     annotated_video_path = f'{base_name}_with_markers.mp4'
 
     try:
