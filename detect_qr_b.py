@@ -1,6 +1,9 @@
+import sys
+
 import cv2
 import numpy as np
 import csv
+
 
 def eulerAnglesFromRotationMatrix(R):
     sy = np.sqrt(R[0, 0] * R[0, 0] + R[1, 0] * R[1, 0])
@@ -17,6 +20,7 @@ def eulerAnglesFromRotationMatrix(R):
 
     return np.degrees(x), np.degrees(y), np.degrees(z)
 
+
 def readBaselineCSV(file_path):
     data = []
     with open(file_path, 'r') as file:
@@ -29,6 +33,7 @@ def readBaselineCSV(file_path):
             qr_3d = eval(row[3])  # Convert string to list
             data.append((frame_id, qr_id, qr_2d, qr_3d))
     return data
+
 
 def computeMovementCommands(current_pose, target_pose, current_dist, target_dist):
     dist_diff = target_dist - current_dist
@@ -51,6 +56,7 @@ def computeMovementCommands(current_pose, target_pose, current_dist, target_dist
         commands.append("down" if pitch_diff > 0 else "up")
 
     return commands if commands else "In Position"
+
 
 def analyzeLiveVideo(baseline_data, target_frame_id):
     cap = cv2.VideoCapture(0)
@@ -84,7 +90,8 @@ def analyzeLiveVideo(baseline_data, target_frame_id):
             for i in range(len(ids)):
                 id = ids[i][0]
                 if id == target_qr_id:
-                    rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners[i], marker_length, camera_matrix, dist_coeffs)
+                    rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners[i], marker_length, camera_matrix,
+                                                                          dist_coeffs)
                     rvec = rvecs[0]
                     tvec = tvecs[0]  # Translation vector
                     current_distance = np.linalg.norm(tvec)
@@ -97,16 +104,22 @@ def analyzeLiveVideo(baseline_data, target_frame_id):
                     cv2.aruco.drawDetectedMarkers(frame, corners)
 
                     yaw, pitch, roll = current_pose
-                    cv2.putText(frame, f'Yaw: {yaw:.2f}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-                    cv2.putText(frame, f'Pitch: {pitch:.2f}', (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-                    cv2.putText(frame, f'Roll: {roll:.2f}', (10, 110), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-                    cv2.putText(frame, f'Distance: {current_distance:.2f}', (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                    cv2.putText(frame, f'Yaw: {yaw:.2f}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2,
+                                cv2.LINE_AA)
+                    cv2.putText(frame, f'Pitch: {pitch:.2f}', (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2,
+                                cv2.LINE_AA)
+                    cv2.putText(frame, f'Roll: {roll:.2f}', (10, 110), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2,
+                                cv2.LINE_AA)
+                    cv2.putText(frame, f'Distance: {current_distance:.2f}', (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1,
+                                (0, 255, 0), 2, cv2.LINE_AA)
 
                     if command:
-                        cv2.putText(frame, f'Command: {command}', (10, 190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+                        cv2.putText(frame, f'Command: {command}', (10, 190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255),
+                                    2, cv2.LINE_AA)
                         print("Movement Command:", command)
         else:
-            cv2.putText(frame, 'No Id detected go backward', (10, 190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, 'No Id detected go backward', (10, 190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2,
+                        cv2.LINE_AA)
 
         cv2.imshow('Live Video', frame)
 
@@ -115,6 +128,7 @@ def analyzeLiveVideo(baseline_data, target_frame_id):
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 if __name__ == '__main__':
     aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_100)
@@ -130,6 +144,6 @@ if __name__ == '__main__':
     baseline_csv_file = 'target_frames.csv'  # Replace with your baseline CSV filename
     baseline_data = readBaselineCSV(baseline_csv_file)
 
-    target_frame_id = int(input("Enter the target frame ID from the baseline CSV: "))
-
+    # target_frame_id = int(input("Enter the target frame ID from the baseline CSV: "))
+    target_frame_id = int(sys.argv[1])
     analyzeLiveVideo(baseline_data, target_frame_id)
