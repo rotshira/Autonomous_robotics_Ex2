@@ -74,11 +74,12 @@ def save_markers_to_csv(file_path, markers_detected):
     """
     with open(file_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(["Frame", "Marker ID", "2D Coordinates", "Distance", "Yaw", "Pitch", "Roll"])
+        writer.writerow(["Frame ID", "QR id", "QR 2D", "Distance", "Yaw", "Pitch", "Roll"])
         for marker in markers_detected:
             frame_number, marker_id, marker_corners, distance, yaw, pitch, roll = marker
-            coordinates = ','.join([f'({x},{y})' for x, y in marker_corners])
-            writer.writerow([frame_number, marker_id, coordinates, distance, yaw, pitch, roll])
+            coordinates = [[x, y] for x, y in marker_corners]
+            writer.writerow([frame_number, marker_id, coordinates, [distance, yaw, pitch, roll]])
+
 
 
 def annotate_and_save_video(input_video, output_video, markers_detected):
