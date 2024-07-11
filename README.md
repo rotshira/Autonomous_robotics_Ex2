@@ -109,41 +109,45 @@ These files provide clear instructions on installing dependencies and running th
 # DetectQR_b (Part B)
 
 ## Features
-* Real-time marker detection: Detects ArUco markers in a live camera feed.
-* Orientation calculation: Computes the yaw, pitch, and roll angles of detected markers.
-* Movement commands: Displays commands like "move left", "move right", "move up", "move down", or "hold position" based on the orientation of the markers.
-
+* Real-time marker detection: Detects ArUco markers in a live video feed from a webcam.
+* Pose estimation: Estimates the pose (yaw, pitch, roll, distance) of detected markers.
+* Movement commands: Computes movement commands such as "move forward", "move backward", "turn left", "turn right", "move up", or "move down" based on the marker's pose relative to a target pose.
+* Interactive display: Displays annotated video frames with marker information and movement commands in real-time.
 ## Usage
 1. Clone the repository:
     see part A first step (git clone).
 2. Install the dependencies (see part A again).
-3. run py DetectQR_b.py
+3. run py detect_qr_b.py <frame_number>
 4. Interacting with the application:
 
    * The script will open a window displaying the live camera feed.
-   * Detected markers will be highlighted with a green rectangle.
-   * Movement commands based on the markers' orientation will be displayed on the video feed.
+   * Detected markers will be highlighted with annotated pose information (yaw, pitch, roll, distance) and movement commands.
    * Press 'q' to quit the application.
 
 ## Code Overview
-`identify_markers_from_camera()`- Captures video from the camera, detects markers, calculates their orientation, and displays movement commands.
+`eulerAnglesFromRotationMatrix(R)` -
+Calculates Euler angles (yaw, pitch, roll) from a rotation matrix R.
 
-`compute_orientation(corners, frame)` -
-Calculates the yaw, pitch, and roll angles of a detected marker based on its corner coordinates and the current video frame.
+`readBaselineCSV(file_path)` -
+Reads baseline data from a CSV file (target_frames.csv) containing frame ID, QR ID, 2D coordinates, and 3D pose information.
 
-`display_command(frame, yaw, pitch)` -
-Displays movement commands on the video frame based on the yaw and pitch angles.
+`computeMovementCommands(current_pose, target_pose, current_dist, target_dist)` - 
+Computes movement commands based on the current and target marker poses and distances.
 
-`main()` - 
-Main function to start the marker detection process.
+`analyzeLiveVideo(baseline_data, target_frame_id)` -
+Analyzes live video from the webcam, detects ArUco markers, estimates their poses, computes movement commands, and displays annotated frames.
+
+`main()` - Main function to initialize parameters, read baseline data, parse command line arguments for the target frame ID, and start the live video analysis.
 
 
 ## Output
-When a marker is detected, it will be highlighted in the video feed, and a command such as "move left" or "move right" will be displayed based on its orientation.
+Detected markers will be annotated in the live video feed, displaying their pose information (yaw, pitch, roll, distance) and movement commands (if applicable).
 
-## Part B Example
-### **Moving QR around the camera:**
-<img width="1292" alt="image" src="https://imgur.com/yfdxeYL.png">
+[//]: # (## Part B Example)
+
+[//]: # (### **Moving QR around the camera:**)
+
+[//]: # (<img width="1292" alt="image" src="">)
 
 
 
