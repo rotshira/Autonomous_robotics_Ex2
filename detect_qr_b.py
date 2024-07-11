@@ -1,5 +1,3 @@
-import sys
-
 import cv2
 import numpy as np
 import csv
@@ -55,10 +53,10 @@ def computeMovementCommands(current_pose, target_pose, current_dist, target_dist
     if abs(pitch_diff) > 5:
         commands.append("down" if pitch_diff > 0 else "up")
 
-    return commands if commands else "In Position"
+    return commands if commands else ["In Position"]
 
 
-def analyzeLiveVideo(baseline_data, target_frame_id):
+def analyzeLiveVideo(baseline_data):
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
@@ -66,18 +64,6 @@ def analyzeLiveVideo(baseline_data, target_frame_id):
         return
 
     print("Webcam successfully connected.")
-
-    target_baseline = next((entry for entry in baseline_data if entry[0] == target_frame_id), None)
-
-    if not target_baseline:
-        print(f"Error: No baseline data found for frame ID {target_frame_id}.")
-        return
-
-    target_qr_id = target_baseline[1]
-    target_pose = target_baseline[3]  # [distance, yaw, pitch, roll]
-    target_distance = target_pose[0]  # Assuming the first element in target_pose is distance
-
-    in_position = False
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -89,7 +75,12 @@ def analyzeLiveVideo(baseline_data, target_frame_id):
         if ids is not None:
             for i in range(len(ids)):
                 id = ids[i][0]
-                if id == target_qr_id:
+                target_baseline = next((entry for entry in baseline_data if entry[1] == id), None)
+
+                if target_baseline:
+                    target_pose = target_baseline[3]  # [distance, yaw, pitch, roll]
+                    target_distance = target_pose[0]  # Assuming the first element in target_pose is distance
+
                     rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners[i], marker_length, camera_matrix,
                                                                           dist_coeffs)
                     rvec = rvecs[0]
@@ -114,7 +105,8 @@ def analyzeLiveVideo(baseline_data, target_frame_id):
                                 (0, 255, 0), 2, cv2.LINE_AA)
 
                     if command:
-                        cv2.putText(frame, f'Command: {command}', (10, 190), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255),
+                        cv2.putText(frame, f'Command: {" ".join(command)}', (10, 190), cv2.FONT_HERSHEY_SIMPLEX, 1,
+                                    (0, 0, 255),
                                     2, cv2.LINE_AA)
                         print("Movement Command:", command)
         else:
@@ -144,6 +136,4 @@ if __name__ == '__main__':
     baseline_csv_file = 'target_frames.csv'  # Replace with your baseline CSV filename
     baseline_data = readBaselineCSV(baseline_csv_file)
 
-    # target_frame_id = int(input("Enter the target frame ID from the baseline CSV: "))
-    target_frame_id = int(sys.argv[1])
-    analyzeLiveVideo(baseline_data, target_frame_id)
+    analyzeLiveVideo(baseline_data)
