@@ -146,11 +146,11 @@ Analyzes live video from the webcam, detects ArUco markers, estimates their pose
 
 Our example:
 
-!(https://youtu.be/06_ifXIBTZo)[https://youtu.be/06_ifXIBTZo]
+!()[https://youtu.be/06_ifXIBTZo]
 
 Given example:
 
-!(https://youtu.be/InGRuhUcBHM)[https://youtu.be/InGRuhUcBHM]
+!()[https://youtu.be/InGRuhUcBHM]
 
 ## Output
 Detected markers will be annotated in the live video feed, displaying their pose information (yaw, pitch, roll, distance) and movement commands (if applicable).
