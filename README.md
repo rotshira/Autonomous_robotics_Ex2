@@ -117,8 +117,9 @@ These files provide clear instructions on installing dependencies and running th
 1. Clone the repository:
     see part A first step (git clone).
 2. Install the dependencies (see part A again).
-3. run py detect_qr_b.py <frame_number>
-4. Interacting with the application:
+3. There is a need for dataframe csv and marked video generated from part a.
+4. run `py detect_qr_b.py`
+5. Interacting with the application:
 
    * The script will open a window displaying the live camera feed.
    * Detected markers will be highlighted with annotated pose information (yaw, pitch, roll, distance) and movement commands.
