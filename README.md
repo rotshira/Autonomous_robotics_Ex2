@@ -142,8 +142,6 @@ Analyzes live video from the webcam, detects ArUco markers, estimates their pose
 
 ## Eample of our own and given (ChallangeB)
 
-### our example:
-
 [Our example (classrecording.mp4)](https://youtu.be/06_ifXIBTZo)
 
 
