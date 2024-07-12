@@ -140,6 +140,15 @@ Analyzes live video from the webcam, detects ArUco markers, estimates their pose
 
 `main()` - Main function to initialize parameters, read baseline data, parse command line arguments for the target frame ID, and start the live video analysis.
 
+## Eample of our own and given (ChallangeB)
+
+### our example:
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/{06_ifXIBTZo})](https://youtu.be/{06_ifXIBTZo})
+
+### given example:
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/{InGRuhUcBHM})](https://youtu.be/{InGRuhUcBHM})
 
 ## Output
 Detected markers will be annotated in the live video feed, displaying their pose information (yaw, pitch, roll, distance) and movement commands (if applicable).
